@@ -1,23 +1,32 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
-import NotFoundPage from './pages/NotFoundPage/Loadable'
 import PrivateRoute from './components/PrivateRoute/Loadable'
+
+import HomePage from './pages/HomePage/Loadable'
+import LoginPage from './pages/LoginPage/Loadable'
+import SignupPage from './pages/SignupPage'
+import NotFoundPage from './pages/NotFoundPage/Loadable'
 
 export const rootRoutes = [
   {
     exact: true,
     path: '/',
-    render: () => <h1>home</h1>,
+    component: HomePage,
   },
   {
     exact: true,
     path: '/login',
-    render: () => <h1>login</h1>,
+    component: LoginPage,
+  },
+  {
+    exact: true,
+    path: '/signup',
+    component: SignupPage,
   },
 ]
 
-const generateRoutes = (routes, parentProps) => {
+export const generateRoutes = (routes, parentProps) => {
   return (
     <Switch>
       {routes.map(
@@ -58,9 +67,3 @@ const generateRoutes = (routes, parentProps) => {
     </Switch>
   )
 }
-
-const Routes = () => {
-  return <BrowserRouter>{generateRoutes(rootRoutes)}</BrowserRouter>
-}
-
-export default Routes
