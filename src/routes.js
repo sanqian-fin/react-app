@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 import HomePage from './pages/HomePage/Loadable'
 import LoginPage from './pages/LoginPage/Loadable'
@@ -20,7 +20,7 @@ export const rootRoutes = [
   },
 ]
 
-const generateRoutes = (routes, parentProps) => {
+export const generateRoutes = (routes, parentProps) => {
   return (
     <Switch>
       {routes.map(
@@ -61,9 +61,3 @@ const generateRoutes = (routes, parentProps) => {
     </Switch>
   )
 }
-
-const Routes = () => {
-  return <BrowserRouter>{generateRoutes(rootRoutes)}</BrowserRouter>
-}
-
-export default Routes
