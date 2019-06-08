@@ -1,7 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import styled from 'styled-components'
+import { withRouter } from 'react-router-dom'
+
+import firebase from '../../utils/firebase'
 
 const Label = styled.label`
   display: block;
@@ -22,7 +26,21 @@ const LoginSchema = Yup.object().shape({
   password: Yup.string().required('required'),
 })
 
-function LoginForm() {
+function LoginForm({ history }) {
+  const onSubmit = values => {
+    const { email, password } = values
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => history.push('/'))
+      .catch(error => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.error(errorCode, errorMessage)
+        alert(errorMessage)
+      })
+  }
+
   return (
     <Formik
       initialValues={{
@@ -30,10 +48,7 @@ function LoginForm() {
         password: '',
       }}
       validationSchema={LoginSchema}
-      onSubmit={values => {
-        // same shape as initial values
-        alert(JSON.stringify(values, null, 2))
-      }}
+      onSubmit={onSubmit}
     >
       {() => (
         <Form>
@@ -54,4 +69,8 @@ function LoginForm() {
   )
 }
 
-export default LoginForm
+LoginForm.propTypes = {
+  history: PropTypes.object.isRequired,
+}
+
+export default withRouter(LoginForm)
