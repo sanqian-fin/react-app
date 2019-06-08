@@ -17,9 +17,12 @@ const Error = styled.div`
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
-    .email('Invalid email')
+    .email('invalid email')
     .required('required'),
-  password: Yup.string().required('required'),
+  username: Yup.string().required('Required'),
+  password: Yup.string()
+    .min(8, 'at least 8 characters')
+    .required('required'),
 })
 
 function LoginForm() {
@@ -27,6 +30,7 @@ function LoginForm() {
     <Formik
       initialValues={{
         email: '',
+        username: '',
         password: '',
       }}
       validationSchema={LoginSchema}
@@ -37,6 +41,11 @@ function LoginForm() {
     >
       {() => (
         <Form>
+          <Label>
+            Username
+            <Input type="text" name="username" />
+          </Label>
+          <ErrorMessage name="username" component={Error} />
           <Label>
             Email
             <Input type="email" name="email" />

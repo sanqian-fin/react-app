@@ -1,11 +1,12 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
+import PrivateRoute from './components/PrivateRoute/Loadable'
+
 import HomePage from './pages/HomePage/Loadable'
 import LoginPage from './pages/LoginPage/Loadable'
+import SignupPage from './pages/SignupPage'
 import NotFoundPage from './pages/NotFoundPage/Loadable'
-
-import PrivateRoute from './components/PrivateRoute/Loadable'
 
 export const rootRoutes = [
   {
@@ -17,6 +18,11 @@ export const rootRoutes = [
     exact: true,
     path: '/login',
     component: LoginPage,
+  },
+  {
+    exact: true,
+    path: '/signup',
+    component: SignupPage,
   },
 ]
 
