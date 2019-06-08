@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import NotFoundPage from './pages/NotFoundPage'
-import PrivateRoute from './components/PrivateRoute'
+import NotFoundPage from './pages/NotFoundPage/Loadable'
+import PrivateRoute from './components/PrivateRoute/Loadable'
 
 export const rootRoutes = [
   {
@@ -54,7 +54,7 @@ const generateRoutes = (routes, parentProps) => {
           )
         }
       )}
-      <PrivateRoute path="**" component={NotFoundPage} />
+      <Route path="**" component={NotFoundPage} />
     </Switch>
   )
 }
