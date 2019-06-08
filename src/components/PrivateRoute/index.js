@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 
 function PrivateRoute({ component: Component, ...rest }) {
@@ -6,7 +7,7 @@ function PrivateRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
-      render={(props) =>
+      render={props =>
         isAuthenticated ? (
           <Component {...props} />
         ) : (
@@ -21,4 +22,10 @@ function PrivateRoute({ component: Component, ...rest }) {
     />
   )
 }
+
+PrivateRoute.propTypes = {
+  component: PropTypes.node.isRequired,
+  location: PropTypes.object.isRequired,
+}
+
 export default PrivateRoute

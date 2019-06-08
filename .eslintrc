@@ -1,0 +1,74 @@
+{
+  "globals": {
+    "__DEV__": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
+  "plugins": [
+    "prettier",
+    "import"
+  ],
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "mocha":true
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "prettier/prettier": "error",
+    "lines-between-class-members": ["error", "always"],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "react/display-name": 0,
+    "react/sort-comp": ["error", { "order": [
+      "static-methods",
+      "lifecycle",
+      "everything-else",
+      "render"
+    ]}],
+    "react/destructuring-assignment": ["error", "always"],
+    "import/order": ["error", {"newlines-between": "always-and-inside-groups"}],
+    "no-useless-rename": ["error", {
+      "ignoreDestructuring": false,
+      "ignoreImport": false,
+      "ignoreExport": false
+    }],
+    "prefer-const": ["error", {
+      "destructuring": "any",
+      "ignoreReadBeforeAssign": true
+    }],
+    "prefer-destructuring": ["error", {
+      "VariableDeclarator": {
+        "array": false,
+        "object": true
+      },
+      "AssignmentExpression": {
+        "array": true,
+        "object": true
+      }
+    }, {
+      "enforceForRenamedProperties": false
+    }]
+  },
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "detect",
+      "flowVersion": "0.53"
+    },
+    "propWrapperFunctions": [
+        "forbidExtraProps",
+        {"property": "freeze", "object": "Object"},
+        {"property": "myFavoriteWrapper"}
+    ],
+    "linkComponents": [
+      "Hyperlink",
+      {"name": "Link", "linkAttribute": "to"}
+    ]
+  }
+}

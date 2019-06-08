@@ -14,28 +14,46 @@ export const rootRoutes = [
     exact: true,
     path: '/login',
     render: () => <h1>login</h1>,
-  }
+  },
 ]
 
 const generateRoutes = (routes, parentProps) => {
   return (
     <Switch>
-      {routes.map(({ routes: childRoutes, layout: Layout, subpath, isPrivate, ...props }) => {
-        const CrossRoutes = isPrivate ? PrivateRoute : Route
-        const path = subpath ? `${parentProps.path}${subpath}` : props.path
-        if (childRoutes) {
+      {routes.map(
+        ({
+          routes: childRoutes,
+          layout: Layout,
+          subpath,
+          isPrivate,
+          ...routeProps
+        }) => {
+          const CrossRoutes = isPrivate ? PrivateRoute : Route
+          const path = subpath
+            ? `${parentProps.path}${subpath}`
+            : routeProps.path
+          if (childRoutes) {
+            return (
+              <CrossRoutes
+                key={JSON.stringify(routes)}
+                {...routeProps}
+                render={layoutProps => (
+                  <Layout {...layoutProps}>
+                    {generateRoutes(childRoutes, routeProps)}
+                  </Layout>
+                )}
+              />
+            )
+          }
           return (
             <CrossRoutes
               key={JSON.stringify(routes)}
-              {...props}
-              render={(layoutProps) => (
-                <Layout {...layoutProps}>{generateRoutes(childRoutes, props)}</Layout>
-              )}
+              {...routeProps}
+              path={path}
             />
           )
         }
-        return <CrossRoutes key={JSON.stringify(routes)} {...props} path={path} />
-      })}
+      )}
       <PrivateRoute path="**" component={NotFoundPage} />
     </Switch>
   )
