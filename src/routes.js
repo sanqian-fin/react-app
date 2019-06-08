@@ -1,19 +1,22 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
+import HomePage from './pages/HomePage/Loadable'
+import LoginPage from './pages/LoginPage/Loadable'
 import NotFoundPage from './pages/NotFoundPage/Loadable'
+
 import PrivateRoute from './components/PrivateRoute/Loadable'
 
 export const rootRoutes = [
   {
     exact: true,
     path: '/',
-    render: () => <h1>home</h1>,
+    component: HomePage,
   },
   {
     exact: true,
     path: '/login',
-    render: () => <h1>login</h1>,
+    component: LoginPage,
   },
 ]
 
