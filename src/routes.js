@@ -3,10 +3,14 @@ import { Route, Switch } from 'react-router-dom'
 
 import PrivateRoute from './components/PrivateRoute/Loadable'
 
+import MainLayout from './layouts/MainLayout'
+
+import NotFoundPage from './pages/NotFoundPage/Loadable'
 import HomePage from './pages/HomePage/Loadable'
 import LoginPage from './pages/LoginPage/Loadable'
 import SignupPage from './pages/SignupPage'
-import NotFoundPage from './pages/NotFoundPage/Loadable'
+import DashboardPage from './pages/DashboardPage'
+import CashFlowStatementPage from './pages/CashFlowStatementPage'
 
 export const rootRoutes = [
   {
@@ -23,6 +27,22 @@ export const rootRoutes = [
     exact: true,
     path: '/signup',
     component: SignupPage,
+  },
+  {
+    path: '/main',
+    layout: MainLayout,
+    routes: [
+      {
+        isPrivate: true,
+        subpath: '/dashboard',
+        component: DashboardPage,
+      },
+      {
+        isPrivate: true,
+        subpath: '/cash-flow-statement',
+        component: CashFlowStatementPage,
+      },
+    ],
   },
 ]
 
