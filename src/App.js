@@ -1,29 +1,42 @@
-import React from 'react'
-import { Provider } from 'react-redux'
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
-import store from './store'
 import { rootRoutes as routes, generateRoutes } from './routes'
 import GlobalStyle from './globalStyle'
 import theme from './themes'
 
 import AppBar from './components/AppBar'
 
-function App() {
+function App({ onAuthStateChanged }) {
+  useEffect(() => {
+    onAuthStateChanged()
+  })
+
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <>
-          <Router>
-            <AppBar />
-            {generateRoutes(routes)}
-          </Router>
-          <GlobalStyle />
-        </>
-      </ThemeProvider>
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <>
+        <Router>
+          <AppBar />
+          {generateRoutes(routes)}
+        </Router>
+        <GlobalStyle />
+      </>
+    </ThemeProvider>
   )
 }
 
-export default App
+App.propTypes = {
+  onAuthStateChanged: PropTypes.func.isRequired,
+}
+
+const mapDispatch = ({ user }) => ({
+  onAuthStateChanged: user.onAuthStateChangedObserver,
+})
+
+export default connect(
+  null,
+  mapDispatch
+)(App)

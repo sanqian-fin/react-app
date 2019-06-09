@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@rematch/core": "^1.1.0",
+    "@rematch/persist": "^1.1.6",
     "firebase": "^6.1.1",
     "formik": "^1.5.7",
     "react": "^16.8.6",
