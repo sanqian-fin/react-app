@@ -3,10 +3,12 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Avatar from 'avataaars'
 
+import ProfileMenu from '../../components/ProfileMenu'
+import Tooltip from '../../components/Tooltip/Loadable'
 import Button from '../../components/Button'
 import logo from '../../assets/logo.png'
-import firebase from '../../utils/firebase'
 
 const Container = styled.div`
   display: flex;
@@ -23,21 +25,29 @@ const Logo = styled.img`
 `
 
 function AppBar({ history, isAuth }) {
-  const logout = async () => {
-    try {
-      await firebase.auth().signOut()
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
   return (
     <Container>
       <Logo src={logo} />
       {isAuth ? (
-        <div>
-          <Button onClick={logout}>logout</Button>
-        </div>
+        <Tooltip
+          placement="bottom-end"
+          trigger="click"
+          tooltip={<ProfileMenu />}
+        >
+          <Avatar
+            avatarStyle="Circle"
+            topType="ShortHairShortRound"
+            accessoriesType="Blank"
+            hairColor="BrownDark"
+            facialHairType="Blank"
+            clotheType="BlazerShirt"
+            eyeType="Default"
+            eyebrowType="Default"
+            mouthType="Default"
+            skinColor="Light"
+            style={{ width: 50, height: 50 }}
+          />
+        </Tooltip>
       ) : (
         <div>
           <Button
