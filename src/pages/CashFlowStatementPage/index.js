@@ -1,7 +1,13 @@
 import React from 'react'
 
+import CashFlowList from './CashFlowList'
+
 function CashFlowStatementPage() {
-  return <div>cash flow</div>
+  return (
+    <div>
+      <CashFlowList />
+    </div>
+  )
 }
 
 export default CashFlowStatementPage
