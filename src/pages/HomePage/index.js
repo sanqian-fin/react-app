@@ -1,7 +1,18 @@
 import React from 'react'
+import styled from 'styled-components'
+
+import banner from '../../assets/banner.png'
+
+const Banner = styled.img`
+  width: 100%;
+`
 
 function HomePage() {
-  return <div>Home</div>
+  return (
+    <div>
+      <Banner src={banner} />
+    </div>
+  )
 }
 
 export default HomePage

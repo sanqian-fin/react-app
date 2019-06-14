@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
+import { Helmet } from 'react-helmet'
 
 import { rootRoutes as routes, generateRoutes } from './routes'
 import GlobalStyle from './globalStyle'
@@ -19,6 +20,9 @@ function App({ onAuthStateChanged }) {
     <ThemeProvider theme={theme}>
       <>
         <Router>
+          <Helmet>
+            <title>Home | Sanqian</title>
+          </Helmet>
           <AppBar />
           {generateRoutes(routes)}
         </Router>
