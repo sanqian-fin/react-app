@@ -10,7 +10,8 @@ import HomePage from './pages/HomePage/Loadable'
 import LoginPage from './pages/LoginPage/Loadable'
 import SignupPage from './pages/SignupPage'
 // import DashboardPage from './pages/DashboardPage'
-import CashFlowStatementPage from './pages/CashFlowStatementPage'
+import CashFlowStatementPage from './pages/CashFlowStatementPage/Loadable'
+import CashFlowStatementFormPage from './pages/CashFlowStatementFormPage/Loadable'
 
 export const rootRoutes = [
   {
@@ -33,6 +34,12 @@ export const rootRoutes = [
     exact: true,
     path: '/cash-flow-statement',
     component: CashFlowStatementPage,
+  },
+  {
+    isPrivate: true,
+    exact: true,
+    path: '/cash-flow-statement/:id',
+    component: CashFlowStatementFormPage,
   },
   // {
   //   path: '/main',

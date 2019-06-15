@@ -18,6 +18,11 @@ const Container = styled.div`
   padding: 5px 15px;
 `
 
+const Brand = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const Logo = styled.img`
   width: 50px;
   height: 50px;
@@ -25,10 +30,20 @@ const Logo = styled.img`
   cursor: pointer;
 `
 
+const AppName = styled.div`
+  color: ${props => props.theme.colors.tertiary};
+  margin-left: 5px;
+  font-size: 20px;
+  font-weight: bold;
+`
+
 function AppBar({ history, isAuth }) {
   return (
     <Container>
-      <Logo src={logo} onClick={() => history.push('/')} />
+      <Brand>
+        <Logo src={logo} onClick={() => history.push('/')} />
+        <AppName>Sanqian</AppName>
+      </Brand>
       {isAuth ? (
         <Tooltip
           placement="bottom-end"
