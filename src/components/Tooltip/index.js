@@ -36,7 +36,7 @@ const Tooltip = ({ children, tooltip, hideArrow, ...props }) => (
       <span
         {...getTriggerProps({
           ref: triggerRef,
-          className: 'trigger',
+          className: 'trigger pointer',
         })}
       >
         {children}

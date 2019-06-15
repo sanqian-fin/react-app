@@ -22,17 +22,19 @@ const Logo = styled.img`
   width: 50px;
   height: 50px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  cursor: pointer;
 `
 
 function AppBar({ history, isAuth }) {
   return (
     <Container>
-      <Logo src={logo} />
+      <Logo src={logo} onClick={() => history.push('/')} />
       {isAuth ? (
         <Tooltip
           placement="bottom-end"
           trigger="click"
           tooltip={<ProfileMenu />}
+          closeOnOutOfBoundaries
         >
           <Avatar
             avatarStyle="Circle"
