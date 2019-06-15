@@ -1,31 +1,13 @@
-import React, { useEffect } from 'react'
-import dayjs from 'dayjs'
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FaQuestionCircle } from 'react-icons/fa'
+import { connect } from 'react-redux'
 
 import Container from '../../components/Container'
 import firebase from '../../utils/firebase'
 
 const db = firebase.firestore()
-
-const list = [
-  {
-    id: '1',
-    category: 'Food',
-    note: 'Noodles',
-    cost: 30,
-    date: dayjs(),
-    type: -1,
-  },
-  {
-    id: '2',
-    category: 'Salary',
-    note: '',
-    cost: 2000,
-    date: dayjs(),
-    type: 1,
-  },
-]
 
 const Item = styled.div`
   display: flex;
@@ -52,21 +34,31 @@ const Row = styled.div`
   }
 `
 
-function CashFlowList() {
+function CashFlowList({ userId }) {
+  const [statements, setStatements] = useState([])
+
   useEffect(() => {
-    db.collection('cashF')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          // eslint-disable-next-line no-console
-          console.log(`${doc.id} => ${doc.data()}`)
-        })
-      })
+    fetchStatements()
   }, [])
+
+  const fetchStatements = async () => {
+    const list = []
+    const querySnapshot = await db
+      .collection('statements')
+      .where('userId', '==', userId)
+      .get()
+    querySnapshot.forEach(function(doc) {
+      list.push({
+        id: doc.id,
+        ...doc.data(),
+      })
+    })
+    setStatements(list)
+  }
 
   return (
     <Container>
-      {list.map(item => (
+      {statements.map(item => (
         <Item key={item.id}>
           <Row>
             <FaQuestionCircle style={{ width: 30, height: 30 }} />
@@ -76,7 +68,7 @@ function CashFlowList() {
             </div>
           </Row>
           <div className={item.type > 0 ? 'income' : 'expense'}>
-            {item.cost}
+            {(item.cost / 10000).toFixed(2)}
           </div>
         </Item>
       ))}
@@ -84,4 +76,12 @@ function CashFlowList() {
   )
 }
 
-export default CashFlowList
+CashFlowList.propTypes = {
+  userId: PropTypes.string.isRequired,
+}
+
+const mapState = ({ user }) => ({
+  userId: user.user.uid,
+})
+
+export default connect(mapState)(CashFlowList)

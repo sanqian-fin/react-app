@@ -26,7 +26,7 @@ const Schema = Yup.object().shape({
 })
 
 function CashFlowStatementFormPage({ userId, history }) {
-  const [catetories, setCategories] = useState([
+  const [categories, setCategories] = useState([
     {
       id: '',
       name: '-- select category --',
@@ -41,7 +41,7 @@ function CashFlowStatementFormPage({ userId, history }) {
   }, [])
 
   const fetchCategories = async () => {
-    const categories = [
+    const list = [
       {
         id: '',
         name: '-- select category --',
@@ -52,7 +52,7 @@ function CashFlowStatementFormPage({ userId, history }) {
       .where('userId', '==', userId)
       .get()
     querySnapshot.forEach(function(doc) {
-      categories.push({
+      list.push({
         id: doc.id,
         ...doc.data(),
       })
@@ -105,7 +105,7 @@ function CashFlowStatementFormPage({ userId, history }) {
             <Label>
               Category
               <Input component="select" name="category">
-                {catetories.map(item => (
+                {categories.map(item => (
                   <option key={item.id} value={item.id}>
                     {item.name}
                   </option>
