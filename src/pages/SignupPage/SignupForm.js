@@ -1,29 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
 import styled from 'styled-components'
+import { Formik, Form, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 import { withRouter } from 'react-router-dom'
 
+import Button from '../../components/Button'
+import { Input, Label, Error } from '../../components/Form'
 import firebase from '../../utils/firebase'
 
-const Label = styled.label`
-  display: block;
-`
-
-const Input = styled(Field)`
-  display: block;
-`
-
-const Error = styled.div`
-  color: ${props => props.theme.colors.error};
+const CustomForm = styled(Form)`
+  width: 100%;
+  max-width: 500px;
 `
 
 const schema = Yup.object().shape({
   email: Yup.string()
     .email('invalid email')
     .required('required'),
-  username: Yup.string().required('Required'),
+  // username: Yup.string().required('Required'),
   password: Yup.string()
     .min(8, 'at least 8 characters')
     .required('required'),
@@ -48,19 +43,19 @@ function SignupForm({ history }) {
     <Formik
       initialValues={{
         email: '',
-        username: '',
+        // username: '',
         password: '',
       }}
       validationSchema={schema}
       onSubmit={onSubmit}
     >
       {() => (
-        <Form>
-          <Label>
+        <CustomForm>
+          {/* <Label>
             Username
             <Input type="text" name="username" />
           </Label>
-          <ErrorMessage name="username" component={Error} />
+          <ErrorMessage name="username" component={Error} /> */}
           <Label>
             Email
             <Input type="email" name="email" />
@@ -71,8 +66,10 @@ function SignupForm({ history }) {
             <Input type="password" name="password" />
           </Label>
           <ErrorMessage name="password" component={Error} />
-          <button type="submit">Submit</button>
-        </Form>
+          <Button className="primary full" type="submit">
+            Signup
+          </Button>
+        </CustomForm>
       )}
     </Formik>
   )
