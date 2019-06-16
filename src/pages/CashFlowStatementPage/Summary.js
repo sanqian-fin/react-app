@@ -1,5 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 import Container from '../../components/Container'
 
@@ -15,24 +17,24 @@ const Row = styled.div`
   }
 `
 
-const list = [
-  {
-    label: 'Income',
-    value: 0,
-    className: 'income',
-  },
-  {
-    label: 'Expense',
-    value: 300,
-    className: 'expense',
-  },
-  {
-    label: 'Total',
-    value: -300,
-  },
-]
+function Summary({ income, expense }) {
+  const list = [
+    {
+      label: 'Income',
+      value: income,
+      className: 'income',
+    },
+    {
+      label: 'Expense',
+      value: expense,
+      className: 'expense',
+    },
+    {
+      label: 'Total',
+      value: income - expense,
+    },
+  ]
 
-function Summary() {
   return (
     <Container>
       {list.map(item => (
@@ -43,7 +45,7 @@ function Summary() {
               item.className || (item.value >= 0 ? 'income' : 'expense')
             }
           >
-            {item.value}
+            {(item.value / 10000).toFixed(2)}
           </div>
         </Row>
       ))}
@@ -51,4 +53,22 @@ function Summary() {
   )
 }
 
-export default Summary
+Summary.propTypes = {
+  income: PropTypes.number.isRequired,
+  expense: PropTypes.number.isRequired,
+}
+
+const mapState = ({ statement: { list } }) => {
+  return {
+    income: list.reduce(
+      (sum, item) => (item.type > 0 ? sum + item.cost : sum),
+      0
+    ),
+    expense: list.reduce(
+      (sum, item) => (item.type < 0 ? sum + item.cost : sum),
+      0
+    ),
+  }
+}
+
+export default connect(mapState)(Summary)
