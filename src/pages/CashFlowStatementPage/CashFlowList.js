@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FaQuestionCircle } from 'react-icons/fa'
 import { connect } from 'react-redux'
+import get from 'lodash/get'
 
 import Container from '../../components/Container'
 
@@ -31,11 +32,18 @@ const Row = styled.div`
   }
 `
 
-function CashFlowList({ statements }) {
+function CashFlowList({ statements, accountId, deleteStatement }) {
+  const tapItem = statementId => {
+    const ok = window.confirm('Are you sure you want to delete the item ?')
+    if (ok) {
+      deleteStatement({ statementId, accountId })
+    }
+  }
+
   return (
     <Container>
       {statements.map(item => (
-        <Item key={item.id}>
+        <Item key={item.id} onClick={() => tapItem(item.id)}>
           <Row>
             <FaQuestionCircle style={{ width: 30, height: 30 }} />
             <div>
@@ -54,10 +62,20 @@ function CashFlowList({ statements }) {
 
 CashFlowList.propTypes = {
   statements: PropTypes.array.isRequired,
+  accountId: PropTypes.string.isRequired,
+  deleteStatement: PropTypes.func.isRequired,
 }
 
-const mapState = ({ statement }) => ({
+const mapState = ({ statement, account }) => ({
   statements: statement.list,
+  accountId: get(account, 'list[0].id', ''),
 })
 
-export default connect(mapState)(CashFlowList)
+const mapDispatch = ({ statement: { deleteStatement } }) => ({
+  deleteStatement,
+})
+
+export default connect(
+  mapState,
+  mapDispatch
+)(CashFlowList)

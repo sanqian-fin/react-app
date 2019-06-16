@@ -47,5 +47,16 @@ export const statement = {
       })
       this.setList(list)
     },
+    async deleteStatement({ accountId, statementId }) {
+      try {
+        await db
+          .collection('statements')
+          .doc(statementId)
+          .delete()
+        this.getStatementList(accountId)
+      } catch (err) {
+        console.error('Error removing document: ', err)
+      }
+    },
   }),
 }
