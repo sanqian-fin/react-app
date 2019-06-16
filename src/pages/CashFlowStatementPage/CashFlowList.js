@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FaQuestionCircle } from 'react-icons/fa'
 import { connect } from 'react-redux'
 
 import Container from '../../components/Container'
-import firebase from '../../utils/firebase'
-
-const db = firebase.firestore()
 
 const Item = styled.div`
   display: flex;
@@ -34,28 +31,7 @@ const Row = styled.div`
   }
 `
 
-function CashFlowList({ userId }) {
-  const [statements, setStatements] = useState([])
-
-  useEffect(() => {
-    fetchStatements()
-  }, [])
-
-  const fetchStatements = async () => {
-    const list = []
-    const querySnapshot = await db
-      .collection('statements')
-      .where('userId', '==', userId)
-      .get()
-    querySnapshot.forEach(function(doc) {
-      list.push({
-        id: doc.id,
-        ...doc.data(),
-      })
-    })
-    setStatements(list)
-  }
-
+function CashFlowList({ statements }) {
   return (
     <Container>
       {statements.map(item => (
@@ -77,11 +53,11 @@ function CashFlowList({ userId }) {
 }
 
 CashFlowList.propTypes = {
-  userId: PropTypes.string.isRequired,
+  statements: PropTypes.array.isRequired,
 }
 
-const mapState = ({ user }) => ({
-  userId: user.user.uid,
+const mapState = ({ statement }) => ({
+  statements: statement.list,
 })
 
 export default connect(mapState)(CashFlowList)

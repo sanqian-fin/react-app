@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Formik, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import dayjs from 'dayjs'
+import get from 'lodash/get'
 
 import Container from '../../components/Container'
 import { Label, Input, Error } from '../../components/Form'
@@ -18,14 +18,14 @@ const CustomForm = styled(Form)``
 const Schema = Yup.object().shape({
   type: Yup.number().required('required'),
   cost: Yup.number()
-    .min(1, 'at least 1')
+    .positive('positive number')
     .required('required'),
   category: Yup.string().required('required'),
   date: Yup.string().required('required'),
   note: Yup.string(),
 })
 
-function CashFlowStatementFormPage({ userId, history }) {
+function CashFlowStatementFormPage({ accountId, history, currentDate }) {
   const [categories, setCategories] = useState([
     {
       id: '',
@@ -35,9 +35,6 @@ function CashFlowStatementFormPage({ userId, history }) {
 
   useEffect(() => {
     fetchCategories()
-    // return () => {
-    //   effect
-    // };
   }, [])
 
   const fetchCategories = async () => {
@@ -49,7 +46,7 @@ function CashFlowStatementFormPage({ userId, history }) {
     ]
     const querySnapshot = await db
       .collection('categories')
-      .where('userId', '==', userId)
+      // .where('userId', '==', userId)
       .get()
     querySnapshot.forEach(function(doc) {
       list.push({
@@ -57,7 +54,7 @@ function CashFlowStatementFormPage({ userId, history }) {
         ...doc.data(),
       })
     })
-    setCategories(categories)
+    setCategories(list)
   }
 
   const addStatement = async values => {
@@ -65,7 +62,7 @@ function CashFlowStatementFormPage({ userId, history }) {
       ...values,
       cost: values.cost * 10000,
       date: new Date(values.date),
-      userId,
+      accountId,
     }
     await db.collection('statements').add(data)
     history.goBack()
@@ -82,7 +79,7 @@ function CashFlowStatementFormPage({ userId, history }) {
           type: -1,
           cost: '',
           category: '',
-          date: dayjs().format('YYYY-MM-DD'),
+          date: currentDate.format('YYYY-MM-DD'),
         }}
         validationSchema={Schema}
         onSubmit={onSubmit}
@@ -99,7 +96,7 @@ function CashFlowStatementFormPage({ userId, history }) {
             <ErrorMessage name="type" component={Error} />
             <Label>
               Cost
-              <Input type="number" name="cost" min={1} placeholder="0.00" />
+              <Input type="number" name="cost" placeholder="0.00" />
             </Label>
             <ErrorMessage name="cost" component={Error} />
             <Label>
@@ -133,12 +130,14 @@ function CashFlowStatementFormPage({ userId, history }) {
 }
 
 CashFlowStatementFormPage.propTypes = {
-  userId: PropTypes.string.isRequired,
+  accountId: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired,
+  currentDate: PropTypes.object.isRequired,
 }
 
-const mapState = ({ user }) => ({
-  userId: user.user.uid,
+const mapState = ({ account, statement: { currentDate } }) => ({
+  accountId: get(account, 'list[0].id', ''),
+  currentDate,
 })
 
 export default connect(mapState)(CashFlowStatementFormPage)

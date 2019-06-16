@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-import dayjs from 'dayjs'
+import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa'
+import { connect } from 'react-redux'
 
 import Container from '../../components/Container'
 
@@ -14,14 +15,12 @@ const Button = styled.div`
   cursor: pointer;
 `
 
-function Header() {
-  const [date, setDate] = useState(dayjs())
-
+function Header({ currentDate, setCurrentDate }) {
   const prev = () => {
-    setDate(date.subtract(1, 'day'))
+    setCurrentDate(currentDate.subtract(1, 'day'))
   }
   const next = () => {
-    setDate(date.add(1, 'day'))
+    setCurrentDate(currentDate.add(1, 'day'))
   }
 
   return (
@@ -30,7 +29,7 @@ function Header() {
         <Button onClick={prev}>
           <FaChevronLeft />
         </Button>
-        <div>{date.format('DD MMMM YYYY')}</div>
+        <div>{currentDate.format('DD MMMM YYYY')}</div>
         <Button onClick={next}>
           <FaChevronRight />
         </Button>
@@ -39,4 +38,20 @@ function Header() {
   )
 }
 
-export default Header
+Header.propTypes = {
+  currentDate: PropTypes.object.isRequired,
+  setCurrentDate: PropTypes.func.isRequired,
+}
+
+const mapState = ({ statement: { currentDate } }) => ({
+  currentDate,
+})
+
+const mapDispatch = ({ statement: { setCurrentDate } }) => ({
+  setCurrentDate,
+})
+
+export default connect(
+  mapState,
+  mapDispatch
+)(Header)

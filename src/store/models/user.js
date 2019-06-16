@@ -19,12 +19,13 @@ export const user = {
       }
     },
   },
-  effects: () => ({
+  effects: dispatch => ({
     async onAuthStateChangedObserver() {
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
           this.setUser(user)
           this.setAuth(true)
+          dispatch.account.onSnapshotAccount(user.uid)
         } else {
           this.setUser({})
           this.setAuth(false)

@@ -8,7 +8,6 @@ import { Helmet } from 'react-helmet'
 import { rootRoutes as routes, generateRoutes } from './routes'
 import GlobalStyle from './globalStyle'
 import theme from './themes'
-
 import AppBar from './components/AppBar'
 
 function App({ onAuthStateChanged }) {

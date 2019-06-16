@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FaPlusCircle } from 'react-icons/fa'
+import { connect } from 'react-redux'
+import get from 'lodash/get'
 
 import CashFlowList from './CashFlowList'
 import Summary from './Summary'
@@ -13,7 +15,16 @@ const Fab = styled.button`
   right: 15px;
 `
 
-function CashFlowStatementPage({ history }) {
+function CashFlowStatementPage({
+  accountId,
+  currentDate,
+  history,
+  getStatementList,
+}) {
+  useEffect(() => {
+    getStatementList(accountId)
+  }, [accountId, currentDate])
+
   const gotoAdd = () => history.push('/cash-flow-statement/add')
 
   return (
@@ -29,7 +40,22 @@ function CashFlowStatementPage({ history }) {
 }
 
 CashFlowStatementPage.propTypes = {
+  accountId: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired,
+  getStatementList: PropTypes.func.isRequired,
+  currentDate: PropTypes.object.isRequired,
 }
 
-export default CashFlowStatementPage
+const mapState = ({ account, statement: { currentDate } }) => ({
+  accountId: get(account, 'list[0].id', ''),
+  currentDate,
+})
+
+const mapDispatch = ({ statement: { getStatementList } }) => ({
+  getStatementList,
+})
+
+export default connect(
+  mapState,
+  mapDispatch
+)(CashFlowStatementPage)
