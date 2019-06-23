@@ -21,6 +21,7 @@ function App({ onAuthStateChanged }) {
         <Router>
           <Helmet>
             <title>Home | Sanqian</title>
+            <meta name="description" content="Sanqian is finance web application" />
           </Helmet>
           <AppBar />
           {generateRoutes(routes)}

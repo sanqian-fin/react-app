@@ -10,7 +10,7 @@ const Banner = styled.img`
 function HomePage() {
   return (
     <div>
-      <Banner src={banner} />
+      <Banner src={banner} alt="banner" />
     </div>
   )
 }
