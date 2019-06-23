@@ -3,6 +3,8 @@ import styled from 'styled-components'
 const Button = styled.button`
   text-transform: capitalize;
   font-size: 16px;
+  font-weight: bold;
+  color: ${props => props.theme.colors.dark}
   background-color: white;
   border: 1px solid ${props => props.theme.colors.lightGray};
   border-radius: 5px;
@@ -16,7 +18,6 @@ const Button = styled.button`
     opacity: 0.9;
   }
   &.primary {
-    color: white;
     background-color: ${props => props.theme.colors.primary};
     border-color: ${props => props.theme.colors.primary};
   }
