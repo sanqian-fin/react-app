@@ -31,7 +31,7 @@ const Logo = styled.img`
 `
 
 const AppName = styled.div`
-  color: ${props => props.theme.colors.tertiary};
+  color: ${props => props.theme.colors.dark};
   margin-left: 5px;
   font-size: 20px;
   font-weight: bold;
@@ -41,7 +41,7 @@ function AppBar({ history, isAuth }) {
   return (
     <Container>
       <Brand>
-        <Logo src={logo} onClick={() => history.push('/')} />
+        <Logo src={logo} alt="logo" onClick={() => history.push('/')} />
         <AppName>Sanqian</AppName>
       </Brand>
       {isAuth ? (
@@ -68,12 +68,14 @@ function AppBar({ history, isAuth }) {
       ) : (
         <div>
           <Button
-            className="transparent"
             onClick={() => history.push('/login')}
           >
             login
           </Button>
-          <Button onClick={() => history.push('/signup')}>signup</Button>
+          <Button
+            className="dark"
+            onClick={() => history.push('/signup')}
+          >signup</Button>
         </div>
       )}
     </Container>
