@@ -3,16 +3,22 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa'
 import { connect } from 'react-redux'
+import dayjs from 'dayjs'
 
 import Container from '../../components/Container'
 
 const Row = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
 `
 
 const Button = styled.div`
   cursor: pointer;
+`
+
+const DatePicker = styled.input`
+  font-size: 16px;
 `
 
 function Header({ currentDate, setCurrentDate }) {
@@ -29,7 +35,11 @@ function Header({ currentDate, setCurrentDate }) {
         <Button onClick={prev}>
           <FaChevronLeft />
         </Button>
-        <div>{currentDate.format('DD MMMM YYYY')}</div>
+        <DatePicker
+          type="date"
+          value={currentDate.format('YYYY-MM-DD')}
+          onChange={e => setCurrentDate(dayjs(e.target.value, 'YYYY-MM-DD'))}
+        />
         <Button onClick={next}>
           <FaChevronRight />
         </Button>
