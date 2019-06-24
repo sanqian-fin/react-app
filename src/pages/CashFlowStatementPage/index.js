@@ -13,6 +13,12 @@ const Fab = styled.button`
   position: absolute;
   bottom: 20px;
   right: 15px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  outline: none;
 `
 
 function CashFlowStatementPage({
