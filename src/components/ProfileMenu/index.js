@@ -21,7 +21,7 @@ const Line = styled.div`
   border-bottom: 1px solid ${props => props.theme.colors.lightGray};
 `
 
-function ProfileMenu({ history }) {
+function ProfileMenu({ history, afterClick }) {
   const logout = async () => {
     try {
       await firebase.auth().signOut()
@@ -31,6 +31,7 @@ function ProfileMenu({ history }) {
   }
   const goto = path => {
     history.push(path)
+    afterClick()
   }
 
   return (
@@ -51,6 +52,7 @@ function ProfileMenu({ history }) {
 
 ProfileMenu.propTypes = {
   history: PropTypes.object.isRequired,
+  afterClick: PropTypes.func.isRequired,
 }
 
 export default withRouter(ProfileMenu)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
@@ -38,6 +38,14 @@ const AppName = styled.div`
 `
 
 function AppBar({ history, isAuth }) {
+  const [tooltipShown, setTooltipShown] = useState(false)
+
+  const onVisibilityChange = shown => {
+    setTooltipShown(shown)
+  }
+
+  const closeMenu = () => setTooltipShown(false)
+
   return (
     <Container>
       <Brand>
@@ -48,8 +56,10 @@ function AppBar({ history, isAuth }) {
         <Tooltip
           placement="bottom-end"
           trigger="click"
-          tooltip={<ProfileMenu />}
+          tooltip={<ProfileMenu afterClick={closeMenu} />}
           closeOnOutOfBoundaries
+          tooltipShown={tooltipShown}
+          onVisibilityChange={onVisibilityChange}
         >
           <Avatar
             avatarStyle="Circle"
@@ -67,15 +77,10 @@ function AppBar({ history, isAuth }) {
         </Tooltip>
       ) : (
         <div>
-          <Button
-            onClick={() => history.push('/login')}
-          >
-            login
+          <Button onClick={() => history.push('/login')}>login</Button>
+          <Button className="dark" onClick={() => history.push('/signup')}>
+            signup
           </Button>
-          <Button
-            className="dark"
-            onClick={() => history.push('/signup')}
-          >signup</Button>
         </div>
       )}
     </Container>
